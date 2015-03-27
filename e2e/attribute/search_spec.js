@@ -4,18 +4,18 @@ describe('Attribute search page', function() {
   var ptor;
   beforeEach(function() {
     browser.ignoreSynchronization = true;
-    ptor = protractor.getInstance();
+    this.title = browser.getTitle();
     browser.get('http://localhost:3036/#/');
-    ptor.sleep(500);
+    browser.sleep(500);
     element.all(by.css('.navbar-nav li')).then(function(items) {
       items[1].click();
     });
     expect(browser.getCurrentUrl()).toContain('/attributes');
-    ptor.sleep(500);   
+    browser.sleep(500);   
   });
 
   afterEach(function() {
-    ptor.sleep(500);
+    browser.sleep(500);
   })
   describe('able to get', function() {
     it('page headings', function(){   
@@ -36,8 +36,9 @@ describe('Attribute search page', function() {
         var aId = element(by.model('searchQuery.attributeId'));
         aId.sendKeys('100');
         element(by.css('[ng-click="search()"]')).click();
+        aId.clear();
         var result = element.all(by.repeater('attribute in pagedItems[currentPage]'));
-        ptor.sleep(500);
+        browser.sleep(500);
         element(by.buttonText('Reset')).click();
       });
 
@@ -45,8 +46,9 @@ describe('Attribute search page', function() {
         var eaId = element(by.model('searchQuery.extAttributeId'));
         eaId.sendKeys('789');
         element(by.css('[ng-click="search()"]')).click();
+        eaId.clear();
         var result = element.all(by.repeater('attribute in pagedItems[currentPage]'));
-        ptor.sleep(500);
+        browser.sleep(500);
         element(by.buttonText('Reset')).click();
       });
 
@@ -54,66 +56,76 @@ describe('Attribute search page', function() {
         var desc = element(by.model('searchQuery.description'));
         desc.sendKeys('this is the description');
         element(by.css('[ng-click="search()"]')).click();
+        desc.clear();
         var result = element.all(by.repeater('attribute in pagedItems[currentPage]'));
-        ptor.sleep(1000);
+        browser.sleep(1000);
         element(by.buttonText('Reset')).click();
       });
 
       it('"Section" as keyword', function() {
         var sRef = element(by.model('searchQuery.sectionRef'));
         sRef.sendKeys('10');
-        ptor.sleep(1200);
+        browser.sleep(1200);
         sRef.sendKeys(protractor.Key.ENTER);
         element(by.css('[ng-click="search()"]')).click();
+        sRef.clear();
         var result = element.all(by.repeater('attribute in pagedItems[currentPage]'));
-        ptor.sleep(500);
+        browser.sleep(500);
         element(by.buttonText('Reset')).click();
       });
 
       it('"Attribute Id" and "Description" combination of 2 keywords', function() {
-        var aId = element(by.model('searchQuery.attributeId'));
-        aId.sendKeys('100');
         var desc = element(by.model('searchQuery.description'));
         desc.sendKeys('qwerta');
+        var aId = element(by.model('searchQuery.attributeId'));
+        aId.sendKeys('100');
+        browser.sleep(500);
         element(by.css('[ng-click="search()"]')).click();
+        aId.clear();
+        desc.clear();
         var result = element.all(by.repeater('attribute in pagedItems[currentPage]'));
-        ptor.sleep(1000);
+        browser.sleep(1000);
         element(by.buttonText('Reset')).click();
       });
 
       it('"Attribute Id", "Description" and "Section" combination of 3 keywords', function() {
-        var asId = element(by.model('searchQuery.attributeId'));
-        asId.sendKeys('100');
         var desc = element(by.model('searchQuery.description'));
         desc.sendKeys('qwerta');
+        var asId = element(by.model('searchQuery.attributeId'));
+        asId.sendKeys('100');
         var sRef = element(by.model('searchQuery.sectionRef'));
         sRef.sendKeys('100');
-        ptor.sleep(1200);
+        browser.sleep(1200);
         sRef.sendKeys(protractor.Key.DOWN + protractor.Key.DOWN + protractor.Key.ENTER);
         element(by.css('[ng-click="search()"]')).click();
+        asId.clear();
+        desc.clear();
+        sRef.clear();
         var result = element.all(by.repeater('attribute in pagedItems[currentPage]'));
-        ptor.sleep(1000);
+        browser.sleep(1000);
         element(by.buttonText('Reset')).click();
       });
 
       it('"Attribute Id", "Description" and "Ext Attribute Id" combination of 4 keywords', function() {
-        var asId = element(by.model('searchQuery.attributeId'));
-        asId.sendKeys('100');
-        var desc = element(by.model('searchQuery.description'));
-        desc.sendKeys('this');
+        browser.sleep(500);
         var eaId = element(by.model('searchQuery.extAttributeId'));
         eaId.sendKeys('789');
+        var desc = element(by.model('searchQuery.description'));
+        desc.sendKeys('this');
+        var asId = element(by.model('searchQuery.attributeId'));
+        asId.sendKeys('100');
         var sRef = element(by.model('searchQuery.sectionRef'));
         element(by.css('[ng-click="searchsectionId()"]')).click();
-        ptor.sleep(100);
+        browser.sleep(500);
         element(by.css('[ng-click="search();setSectionList()"]')).click();
+        browser.sleep(1000);
         element.all(by.css('[ng-click="getSectionDetails(result)"]')).then(function(items) {
-         items[1].click();
+         items[0].click();
         });
-        ptor.sleep(100);
+        browser.sleep(500);
         element(by.buttonText('Search')).click();
         var result = element.all(by.repeater('attribute in pagedItems[currentPage]'));
-        ptor.sleep(1000);
+        browser.sleep(1000);
         element(by.buttonText('Reset')).click();
       });
     });
@@ -127,57 +139,54 @@ describe('Attribute search page', function() {
       element.all(by.tagName('h3')).then(function(items) {
         expect(items[1].getText()).toBe('Found 0 entry');
       });
-      ptor.sleep(1000);
+      browser.sleep(1000);
       element(by.buttonText('Reset')).click();
     });
 
   });  
 
   describe('able to', function() {
-    it('show message when that attribute is add in CG when click on ok in modal popup', function() {
-      var aId = element(by.model('searchQuery.attributeId'));
-      aId.sendKeys('10');
-      element(by.css('[ng-click="search()"]')).click();
-      aId.clear();
-      element.all(by.buttonText('Delete')).then(function(items) {
-        items[0].click();
-      });
-      ptor.sleep(500);
-      element(by.css('[ng-click="ok()"]')).click();
-      element.all(by.css('.growl')).then(function(items) {
-        expect(items[0].getText()).toContain('this attribute is assigned in classification group, so can not be deleted.');
-      });
-      ptor.sleep(500);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
-    });
-
     it('delete the record when click on ok in modal popup', function() {
-      var aId = element(by.model('searchQuery.attributeId'));
-      aId.sendKeys('60');
+      browser.sleep(500);
+      var id = element(by.model('searchQuery.attributeId'));
+      id.sendKeys('00');
+      browser.sleep(500);
       element(by.css('[ng-click="search()"]')).click();
-      aId.clear();
+      id.clear();
+      browser.sleep(500);
       element.all(by.buttonText('Delete')).then(function(items) {
         items[0].click();
       });
-      ptor.sleep(500);
       element(by.css('[ng-click="ok()"]')).click();
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('Attribute removed Succesfully');
       });
-      ptor.sleep(500);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      browser.sleep(500);
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
     });
 
-    it('do not delete the record when click on ok in modal popup', function() {
+    it('show message when that attribute is add in CG when click on ok in modal popup', function() {
       var aId = element(by.model('searchQuery.attributeId'));
-      aId.sendKeys('60');
+      aId.sendKeys('1000');
+      browser.sleep(500);
       element(by.css('[ng-click="search()"]')).click();
       aId.clear();
+      browser.sleep(500);
       element.all(by.buttonText('Delete')).then(function(items) {
         items[0].click();
       });
-      element(by.css('[ng-click="cancel()"]')).click();
-      ptor.sleep(1000);
+      browser.sleep(500);
+      var btn = element(by.css('[ng-click="ok()"]'));
+      btn.sendKeys(protractor.Key.ENTER);
+      element.all(by.css('.growl')).then(function(items) {
+        expect(items[0].getText()).toContain('this attribute is assigned in classification group, so can not be deleted.');
+      });
+      browser.sleep(500);
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
     });
 
     it('go to edit page of the record when click on particular record row', function() {
@@ -185,6 +194,7 @@ describe('Attribute search page', function() {
       asId.sendKeys('90');
       element(by.css('[ng-click="search()"]')).click();
       asId.clear();
+      browser.sleep(1000);
       element.all(by.tagName('td')).then(function(rows) {
           rows[1].click();
       });
@@ -192,7 +202,7 @@ describe('Attribute search page', function() {
       element.all(by.tagName('h3')).then(function(items) {
         expect(items[2].getText()).toBe('Edit Attribute');
       });
-      ptor.sleep(1000);
+      browser.sleep(1000);
     });
   });
 

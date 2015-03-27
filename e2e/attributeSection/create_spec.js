@@ -1,22 +1,21 @@
 'use strict';
 
 describe('Attribute Section create page', function() {
-  var ptor;
   var text_helper;
   var dropdown_helper;
   beforeEach(function() {
     browser.ignoreSynchronization = true;
-    ptor = protractor.getInstance();
+    this.title = browser.getTitle();
     text_helper = require('../helpers/random_text.js');
     dropdown_helper = require('../helpers/selectDropdown.js');
     browser.get('http://localhost:3036/#/');
-    ptor.sleep(500);
+    browser.sleep(500);
     element(by.buttonText('Add New')).click();
-    ptor.sleep(500);
+    browser.sleep(500);
   });
 
   afterEach(function() {
-    ptor.sleep(500);
+    browser.sleep(500);
   });
 
   describe('should', function() {
@@ -27,8 +26,7 @@ describe('Attribute Section create page', function() {
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('Attribute Section created succesfully');
       }); 
-      ptor.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      browser.sleep(100);
     });
 
     describe('show error message when', function() {
@@ -45,11 +43,11 @@ describe('Attribute Section create page', function() {
         element.all(by.model('sd.name')).then(function(items) {
           items[1].sendKeys(text_helper.getRandomString(10) + text_helper.getRandomSpecialChar(2));
         });
-        ptor.sleep(500);
+        browser.sleep(500);
         element.all(by.css('.help-block')).then(function(items) {
           expect(items[2].getText()).toContain("Name won't allow special character(s)");
         }); 
-        ptor.sleep(500);
+        browser.sleep(500);
         element.all(by.css('.btn-default')).then(function(items){
           items[2].click();
         });
@@ -60,11 +58,11 @@ describe('Attribute Section create page', function() {
         element.all(by.model('sd.description')).then(function(items) {
           items[1].sendKeys(text_helper.getRandomString(10) + text_helper.getRandomSpecialChar(2));
         });
-        ptor.sleep(500);
+        browser.sleep(500);
         element.all(by.css('.help-block')).then(function(items) {
           expect(items[3].getText()).toContain("Description won't allow special character(s)");
         }); 
-        ptor.sleep(500);
+        browser.sleep(500);
         element.all(by.css('.btn-default')).then(function(items){
           items[4].click();
         });
@@ -73,7 +71,7 @@ describe('Attribute Section create page', function() {
         element.all(by.css('.help-block')).then(function(items) {
           expect(items[3].getText()).toContain("Order number will allow only numbers");
         }); 
-        ptor.sleep(500);
+        browser.sleep(500);
       });
 
       it('dirty same "Attribute Id" is used to create new attribute', function() {
@@ -83,8 +81,7 @@ describe('Attribute Section create page', function() {
         element.all(by.css('.growl')).then(function(items) {
           expect(items[0].getText()).toContain('please provide another attribute section id, it already exis');
         }); 
-        ptor.sleep(100);
-        element(by.css('[ng-click="deleteMessage(message)"]')).click();
+        browser.sleep(100);
       });
     });
 
@@ -99,31 +96,35 @@ describe('Attribute Section create page', function() {
       element.all(by.model('sd.language')).then(function(items) {
         items[1].sendKeys('e'+protractor.Key.ENTER);
       });
-      ptor.sleep(500);
-      element.all(by.css('.growl')).then(function(items) {
+      browser.sleep(500);
+      element.all(by.css('.growl-item ')).then(function(items) {
         expect(items[0].getText()).toContain('You have selected same language more than once');
       }); 
-      ptor.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      browser.sleep(100);
       element.all(by.model('sd.name')).then(function(items) {
         items[1].sendKeys(text_helper.getRandomString(50));
       });
-      element.all(by.model('sd.language')).then(function(items) {
+      element.all(by.model('sd.language')).then(function(items) {  
         items[1].sendKeys('d'+protractor.Key.ENTER);
       });
-      ptor.sleep(500);
+      browser.sleep(1000);
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('You have changed the language please check name');
       }); 
-      ptor.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      browser.sleep(100);
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
+      browser.sleep(2000);
       element(by.css('[ng-click="add_name(attributeSection.names)"]')).click();
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('You are not allowed to add more than limit');
       }); 
-      ptor.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
-      ptor.sleep(200);
+      browser.sleep(100);
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
+      browser.sleep(2000);
       element.all(by.model('sd.description')).then(function(items) {
         items[0].sendKeys(text_helper.getRandomString(100));
       });
@@ -131,36 +132,41 @@ describe('Attribute Section create page', function() {
       element.all(by.model('sd.language')).then(function(items) {
         items[3].sendKeys('e'+protractor.Key.ENTER);
       });
-      ptor.sleep(500);
+      browser.sleep(500);
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('You have selected same language more than once');
       }); 
-      ptor.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      browser.sleep(100);
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
+      browser.sleep(2000);
       element.all(by.model('sd.description')).then(function(items) {
         items[1].sendKeys(text_helper.getRandomString(50));
       });
       element.all(by.model('sd.language')).then(function(items) {
         items[3].sendKeys('d'+protractor.Key.ENTER);
       });
-      ptor.sleep(500);
+      browser.sleep(500);
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('You have changed the language please check description');
       }); 
-      ptor.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      browser.sleep(100);
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
+      browser.sleep(2000);
       element(by.css('[ng-click="add_desc(attributeSection.descriptions)"]')).click();
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('You are not allowed to add more than limit');
       }); 
-      ptor.sleep(100);
+      browser.sleep(100);
       element(by.css('[ng-click="deleteMessage(message)"]')).click();
       element(by.buttonText('Save')).click();
-      element.all(by.css('.growl')).then(function(items) {
+      element.all(by.css('.growl-item')).then(function(items) {
         expect(items[0].getText()).toContain('Attribute Section created succesfully');
       }); 
-      ptor.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      browser.sleep(100);
     });
     
     it('reset the fields if click on reset button', function() {
@@ -173,7 +179,7 @@ describe('Attribute Section create page', function() {
       var oNo = element(by.model('attributeSection.orderNo'));
       oNo.sendKeys(text_helper.getRandomNumber(4));
       element(by.css('[ng-click="reset()"]')).click();
-      ptor.sleep(100);
+      browser.sleep(100);
     });
 
     describe('get modal popup when click on cancel and', function() {
@@ -181,20 +187,20 @@ describe('Attribute Section create page', function() {
         var asId = element(by.model('attributeSection.attributeSectionId'));
         asId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
         element(by.css('[ng-click="isCreateSubGroup(false)"]')).click();
-        ptor.sleep(200);
+        browser.sleep(200);
         element.all(by.buttonText('Yes')).then(function(items) {
           items[0].click();
         });
-        ptor.sleep(500);
+        browser.sleep(500);
       });
 
       it('able to stay on same page', function() {
        var asId = element(by.model('attributeSection.attributeSectionId'));
         asId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
         element(by.css('[ng-click="isCreateSubGroup(false)"]')).click();
-        ptor.sleep(200);
+        browser.sleep(200);
         element(by.buttonText('No')).click();
-        ptor.sleep(500);
+        browser.sleep(500);
       });
     });
 
