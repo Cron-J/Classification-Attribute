@@ -1,0 +1,119 @@
+<div class="row" ng-controller="attributeSectionSearchCtrl">
+	<!-- Header Name-->
+	<div ng-show="! changeView.search">
+	<div class="row col-sm-12">
+		<div class="col-sm-7">
+			<h1>Attribute Sections</h1>
+			<h3>Search Attribute Section</h3>
+		</div>
+	</div>
+	<div class="row col-sm-12">
+		<div class="col-sm-1 col-sm-offset-11">
+			<button class="btn btn-primary pull-right" ng-click="new_page()">Add New</button>
+		</div>
+	</div>
+
+	<!-- New Field -->
+	<div class="row col-sm-12 form-group">
+		<div class="col-sm-2">
+			<label class="control-label">Attribute Section ID</label>
+		</div>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="attributeSectionId" ng-model="searchQuery.attributeSectionId">
+		</div>
+		<div class="col-sm-1 col-sm-offset-1">
+			<label class="control-label">Name</label>
+		</div>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="name" ng-model="searchQuery.name">
+		</div>
+	</div>
+
+	<!-- New Field -->
+	<div class="row col-sm-12 form-group">
+		<div class="col-sm-2">
+			<label class="control-label">Description</label>
+		</div>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="description" ng-model="searchQuery.description">
+		</div>
+	</div>
+
+	<!-- Submit and reset button-->
+	<div class="row col-sm-12">
+		<div class="col-sm-2 col-sm-offset-10">
+			<button class="btn btn-primary" ng-click="search()">Search</button>
+			<button class="btn btn-primary pull-right" ng-click="reset_search()">Reset</button>
+		</div>
+	</div>
+
+	<div class="row col-sm-12" ng-show="searchResult.length==0">
+			<h3>Found {{searchResult.length}} entry</h3>
+	</div>
+
+	<div class="row col-sm-12" ng-show="filteredItems.length > 0">
+		<b>Found {{filteredItems.length}} entries</b>
+		<table class="table table-stripped custom-table">
+			<tbody>
+				<tr>
+					<th style="width: 10%;">#</th>
+					<th style="width: 15%;">Attribute Section Id</th>
+					<th style="width: 25%;">Name</th>
+					<th style="width: 25%;">Description</th>
+					<th style="width: 15%;">Order No</th>
+					<th style="width: 10%;"></th>
+				</tr>
+			</tbody>
+			<tbody>
+			<tr class="hoverptr" ng-repeat="attributeSection in pagedItems[currentPage]">
+			<td>{{$index+1}}</td>
+			<td class="custom-row" ng-click="edit_attributeSection(attributeSection._id)">{{attributeSection.attributeSectionId}}</td>
+			<td class="custom-row" ng-click="edit_attributeSection(attributeSection._id)">{{attributeSection.names[0].name}}</td>
+			<td class="custom-row" ng-click="edit_attributeSection(attributeSection._id)">{{attributeSection.descriptions[0].description}}</td>
+			<td class="custom-row" ng-click="edit_attributeSection(attributeSection._id)">{{attributeSection.orderNo}}</td>
+			<td>
+			<button type="button" ng-click="delete_one(attributeSection._id,$index)" class="btn btn-primary">Delete</button>
+			</td>
+			</tr>
+
+			</tbody>
+		<tfoot>
+			<td colspan="6">
+				<div class="pagination pull-right">
+					<ul>
+						<li ng-class="{disabled: currentPage == 0}">
+							<a href ng-click="prevPage()">« Prev</a>
+						</li>
+						<li ng-repeat="n in range(pagedItems.length)" ng-class="{active: n == currentPage}"ng-click="setPage()">
+						<a href ng-show="n >= min && n < max" ng-bind="n + 1">1</a>
+						</li>
+						<li ng-class="{disabled: currentPage == pagedItems.length - 1}">
+							<a href ng-click="nextPage()">Next »</a>
+						</li>
+					</ul>
+				</div>
+			</td>
+		</tfoot>
+		</table>
+
+	</div>
+</div>
+	 <div ng-if="changeView.search" ng-include="'app/attributeSection/attributeSection.html'" ></div>
+</div>
+<script type="text/ng-template" id="myModalContent.html">
+	<div class="modal-body">
+		<p>Are you sure you want to delete ?</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="ok()">OK</button>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
+<script type="text/ng-template" id="alert.html">
+	<div class="modal-body">
+		<p>Please fill some entry for search ?</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cancel()">Ok</button>
+	</div>
+</script>  

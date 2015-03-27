@@ -1,0 +1,139 @@
+<div class="row" ng-controller="attributeSectionCtrl" ng-init="init_page()">	
+	<!-- Header Name-->
+	
+	<div class="row">
+		<div class="col-sm-6">
+			<h3 ng-if="page=='new'">New Attribute Section</h3> 
+			<h3 ng-if="page=='view'">Attribute Section Details</h3>
+			<h3 ng-if="page=='edit'">Edit Attribute Section</h3>
+		</div>
+	</div>
+
+	<div class="row form-panel">
+		<form class="form-horizontal" name="attributeSectionForm" novalidate>
+		<!-- New Field -->
+		<div class="row col-sm-12 form-group">
+			<div class="col-sm-2">
+				<label class="control-label">Attribute Section ID </label>
+				<span ng-show="attributeSectionForm.attributeSectionId.$error.required" class="help-inline" style="color:red"> *</span>
+			</div>
+			<div class="col-sm-4">
+				<input type="text" ng-readonly="page=='view' || page=='edit'" class="form-control customized-form-control2" name="attributeSectionId" ng-model="attributeSection.attributeSectionId" ng-pattern="/^[a-zA-Z0-9_-]+$/" required maxlength="50"/>
+				<div class="has-error" ng-show="attributeSectionForm.attributeSectionId.$invalid">
+					<span ng-show="attributeSectionForm.attributeSectionId.$error.pattern" class="help-block">Ext attribute section id won't allow special character(s)</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- New Field -->
+		<div class="row col-sm-12 form-group">
+			<div class="col-sm-2">
+				<label class="control-label">Name</label>
+			</div>
+			<div class="col-sm-6">
+				<div class="col-sm-1 pull-right">
+					<button type="button" ng-hide="page=='view'" class="btn btn-default btn-xs group-btn" ng-click="add_name(attributeSection.names)"><span class="glyphicon glyphicon-plus"></span></button>
+					</div>
+					<div ng-repeat="sd in attributeSection.names" class="descriprion-view">
+					<div class="col-sm-3">
+						<select class="form-control" name="sd" 
+							ng-model="sd.language" ng-disabled="page=='view'" 
+							ng-options = "l.iso as l.iso for l in languageList" 
+							ng-change="changeLanguage1(attributeSection.names, $index)">
+						</select>
+					</div>
+					<div class="col-sm-7">
+						<ng-form name="nameForm">
+							<textarea type="text" class="form-control" name="name"  
+							ng-model="sd.name" ng-pattern="/^[a-zA-Z0-9_-\s]+$/" maxlength="200" ng-readonly="page=='view'" 
+							ng-blur="delete_name(attributeSection.names, $index)">
+							</textarea>
+							<div class="has-error" ng-show="nameForm.name.$invalid">
+								<span ng-show="nameForm.name.$error.pattern" class="help-block">Name won't allow special character(s)</span>
+							</div>
+						</ng-form>
+					</div>
+					<div class="col-sm-1">
+						<button type="button" ng-hide="page=='view'" class="btn btn-default btn-xs" ng-click="remove_name(attributeSection.names, $index)"><span class="glyphicon glyphicon-remove"></span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row col-sm-12 form-group">
+			<div class="col-sm-2">
+				<label class="control-label">Description</label>
+			</div>
+			<div class="col-sm-6">
+				<div class="col-sm-1 pull-right">
+					<button type="button" ng-hide="page=='view'" class="btn btn-default btn-xs group-btn" ng-click="add_desc(attributeSection.descriptions)"><span class="glyphicon glyphicon-plus"></span></button>
+					</div>
+					<div ng-repeat="sd in attributeSection.descriptions" class="descriprion-view descriprion-view2">
+					<div class="col-sm-3">
+						<select class="form-control" name="sd" 
+							ng-model="sd.language" ng-disabled="page=='view'" 
+							ng-options = "l.iso as l.iso for l in languageList" 
+							ng-change="changeLanguage2(attributeSection.descriptions, $index)">
+						</select>
+					</div>
+					<div class="col-sm-7">
+						<ng-form name="descriptionForm">
+							<textarea type="text" class="form-control" name="description"  ng-model="sd.description" ng-pattern="/^[a-zA-Z0-9_-\s]+$/" maxlength="500" ng-readonly="page=='view'" rows="3" ng-blur="delete_desc(attributeSection.descriptions, $index)">
+							</textarea>
+							<div class="has-error" ng-show="descriptionForm.description.$invalid">
+								<span ng-show="descriptionForm.description.$error.pattern" class="help-block">Description won't allow special character(s)</span>
+							</div>
+						</ng-form>
+					</div>
+					<div class="col-sm-1">
+						<button type="button" ng-hide="page=='view'" class="btn btn-default btn-xs" ng-click="remove_desc(attributeSection.descriptions, $index)"><span class="glyphicon glyphicon-remove"></span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row col-sm-12 form-group">
+			<div class="col-sm-2">
+				<label class="control-label">Order No</label>
+			</div>
+			<div class="col-sm-4">
+				<input type="number" ng-readonly="page=='view'" class="form-control customized-form-control2" name="orderNo" ng-model="attributeSection.orderNo">
+				<div class="has-error" ng-show="attributeSectionForm.orderNo.$invalid">
+					<span ng-show="attributeSectionForm.orderNo.$invalid" class="help-block">Order number will allow only numbers</span>
+				</div>
+			</div>
+		</div>
+
+				
+		<div ng-show="page=='view' || page == 'edit'">
+			<div ng-include="'app/partials/_auditInfo.html'"></div>
+		</div>
+			
+		
+		<!-- Submit and reset button-->
+		<div class="row col-sm-8 col-sm-offset-2">
+			<div class="form-button-group">
+				<button class="btn btn-primary" ng-show="page=='new'" ng-click="submit(attributeSection)"
+				>Save</button>
+				<button class="btn btn-primary" ng-show="page=='new'" ng-click="reset()">Reset</button>
+				<button class="btn btn-primary" ng-show="page=='view'" ng-click="edit_attributeSection(attributeSection._id)">Edit</button>
+				<button class="btn btn-primary" ng-show="page=='edit'" ng-click="update_attributeSection(attributeSection,attributeSection._id)">Update</button>
+				<button class="btn btn-primary" ng-show="page==='edit' || page==='new'" 
+				data-toggle="modal" data-target="#confirmationDailogBox" 
+				ng-click="isCreateSubGroup(false)">Cancel</button>
+				<button class="btn btn-primary" ng-show="page==='view'" 
+				ng-click="cancel_view()" >Cancel</button>
+			</div>
+		</div>
+		<div ng-include="'app/partials/_confirmationDialog.html'"></div>
+	</form>
+	</div>
+</div>	
+<script type="text/ng-template" id="alert.html">
+	<div class="modal-body">
+		<p>Please enter valid and required datas</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cancel()">Ok</button>
+	</div>
+</script>
