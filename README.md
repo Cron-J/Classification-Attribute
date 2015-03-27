@@ -87,4 +87,4 @@ Open index.html inside out directory.
 
 ### Test Script Generator
 
-https://bitbucket.org/gaurav14/classification-attribute-test-script-generator/overview
+[Test Script Generator] (https://github.com/Cron-J/Classification-Attribute-Test-Script-Generator)
