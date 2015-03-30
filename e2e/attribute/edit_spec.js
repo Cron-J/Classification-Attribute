@@ -151,7 +151,11 @@ describe('Attribute Edit page', function() {
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('Attribute updated Succesfully');
       }); 
-      browser.sleep(2000);
+      browser.sleep(200);
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
+      browser.sleep(100);
     });
   });
 

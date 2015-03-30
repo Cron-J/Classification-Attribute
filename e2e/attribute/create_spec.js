@@ -254,9 +254,11 @@ describe('Attribute create page', function() {
       element.all(by.buttonText('Save')).then(function(items) {
         items[0].click();
       });
+      browser.sleep(100);
       element.all(by.tagName('p')).then(function(items) {
         expect(items[0].getText()).toContain('Please enter valid and required datas');
       });
+      browser.sleep(200);
       element(by.buttonText('Ok')).click();
       browser.sleep(200);
     });

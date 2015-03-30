@@ -1,29 +1,30 @@
 'use strict';
 
 describe('Classification Edit page', function() {
-  var ptor;
   var text_helper;
   beforeEach(function() {
     browser.ignoreSynchronization = true;
-    ptor = protractor.getInstance();
+    this.title = browser.getTitle();
     text_helper = require('../helpers/random_text.js');
     browser.get('http://localhost:3036/#/');
-    ptor.sleep(500);
+    browser.sleep(500);
     element.all(by.css('.navbar-nav li')).then(function(items) {
       items[2].click();
     });
     var cId = element(by.model('searchQuery.classificationId'));
     cId.sendKeys('900');
     element(by.css('[ng-click="search();filtered();"]')).click();
+    browser.sleep(500);
     cId.clear();
     element.all(by.tagName('td')).then(function(rows) {
         rows[2].click();
     });
     expect(browser.getCurrentUrl()).toContain('/classifications');
+    browser.sleep(100);
     element.all(by.tagName('h3')).then(function(items) {
       expect(items[2].getText()).toBe('Edit Classification');
     });
-    ptor.sleep(500);   
+    browser.sleep(500);   
   });
 
   afterEach(function() {
@@ -32,36 +33,38 @@ describe('Classification Edit page', function() {
   describe('able to', function() {
     it('show error message if dirty data is entered and update on valid data', function() {
       element.all(by.model('sd.description')).then(function(items) {
+        items[0].clear();
         items[0].sendKeys(text_helper.getRandomString(100));
       });
       element(by.css('[ng-click="add_desc(classification.descriptions.descShort)"]')).click();
       element.all(by.model('sd.description')).then(function(items) {
         items[1].sendKeys(text_helper.getRandomString(10) + text_helper.getRandomSpecialChar(2));
       });
-      ptor.sleep(200);
+      browser.sleep(200);
       element.all(by.css('.help-block')).then(function(items) {
         expect(items[2].getText()).toContain("Short description won't allow special character(s)");
       }); 
-      ptor.sleep(200);
+      browser.sleep(200);
+      // element.all(by.model('sd.description')).then(function(items) {
+      //   items[0].sendKeys(text_helper.getRandomString(100));
+      // });
+      element.all(by.model('sd.description')).then(function(items) {
+        items[1].clear();
+        items[1].sendKeys(text_helper.getRandomString(100));
+      });
       element.all(by.css('.btn-default')).then(function(items){
         items[3].click();
       });
-      element.all(by.model('sd.description')).then(function(items) {
-        items[0].clear();
-        items[0].sendKeys(text_helper.getRandomString(100));
-      });
-      element.all(by.model('sd.description')).then(function(items) {
-        items[1].sendKeys(text_helper.getRandomString(100));
-      });
       element(by.css('[ng-click="add_desc(classification.descriptions.descLong)"]')).click();
+      browser.sleep(100);
       element.all(by.model('sd.description')).then(function(items) {
         items[2].sendKeys(text_helper.getRandomString(10) + text_helper.getRandomSpecialChar(2));
       });
-      ptor.sleep(200);
+      browser.sleep(200);
       element.all(by.css('.help-block')).then(function(items) {
         expect(items[3].getText()).toContain("Long description won't allow special character(s)");
       }); 
-      ptor.sleep(200);
+      browser.sleep(200);
       element.all(by.model('sd.description')).then(function(items) {
         items[2].clear();
         items[2].sendKeys(text_helper.getRandomString(100));
@@ -100,32 +103,35 @@ describe('Classification Edit page', function() {
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('Classification updated succesfully');
       }); 
-      ptor.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      browser.sleep(100);
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
+      browser.sleep(100);
     });
 
     describe('get modal popup when click on cancel and', function() {
       beforeEach(function() {
-        ptor.sleep(500);   
+        browser.sleep(500);   
       });
       it('able to redirect to Attribute Section search page', function() {
         element.all(by.buttonText('Cancel')).then(function(items) {
          items[1].click();
         });;
-        ptor.sleep(200);
+        browser.sleep(200);
         element.all(by.buttonText('Yes')).then(function(items) {
           items[0].click();
         });
-        ptor.sleep(500);
+        browser.sleep(500);
       });
 
       it('able to stay on same page', function() {
         element.all(by.buttonText('Cancel')).then(function(items) {
          items[1].click();
         });
-        ptor.sleep(200);
+        browser.sleep(200);
         element(by.buttonText('No')).click();
-        ptor.sleep(500);
+        browser.sleep(500);
       });
     });
   });
