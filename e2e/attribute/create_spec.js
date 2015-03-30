@@ -27,37 +27,33 @@ describe('Attribute create page', function() {
   describe('should', function() {
     describe('create the Attribute', function() {
       it('if sufficient details are provided', function() {
-        browser.sleep(500);
-        var aId = element(by.model('attribute.attributeId'));
-        aId.sendKeys('0000');
+        var sId = element(by.model('attribute.attributeId'));
+        sId.sendKeys('0000');
+        browser.sleep(200);
         element.all(by.buttonText('None selected')).then(function(items) {
           items[1].click();
         }); 
         element.all(by.model('inputLabel.labelFilter')).then(function(items) {
-          items[1].sendKeys(protractor.Key.DOWN+protractor.Key.DOWN);
+          items[1].sendKeys('da'+protractor.Key.DOWN+protractor.Key.DOWN);
         });
-        browser.sleep(500);
+        browser.sleep(200);
         element.all(by.css('.multiSelectFocus')).then(function(items) {
             items[0].click();
         });
-        browser.sleep(200);
+        browser.sleep(300);
         element.all(by.buttonText('Save')).then(function(items) {
             items[1].click();
         });
-        element.all(by.css('.growl')).then(function(items) {
-          expect(items[0].getText()).toContain('Attribute created succesfully');
+        element.all(by.css('.growl')).then(function(msgs) {
+          expect(msgs[0].getText()).toContain('Attribute created succesfully');
         }); 
-        browser.sleep(100);
-        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
-          items[0].click();
-        });
+        browser.sleep(3000);
       });
 
-      it('evenhtough warning messages are present', function() {
-        browser.sleep(500);
-        element(by.css('[ng-click="reset()"]')).click();
-        var aId = element(by.model('attribute.attributeId'));
-        aId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
+      it('evenhtough warning messages are present', function() { 
+        var atrrId = element(by.model('attribute.attributeId'));
+        atrrId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
+        browser.sleep(200);
         element.all(by.model('sd.description')).then(function(items) {
           items[0].sendKeys(text_helper.getRandomString(100));
         });
@@ -65,14 +61,14 @@ describe('Attribute create page', function() {
         element.all(by.model('sd.language')).then(function(items) {
           items[1].sendKeys('e'+protractor.Key.ENTER);
         });
-        browser.sleep(500);
+        browser.sleep(200);
         element.all(by.css('.growl')).then(function(items) {
           expect(items[0].getText()).toContain('You have selected same language more than once');
         }); 
-        browser.sleep(2000);
-        // element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
-        //   items[0].click();
-        // });
+        browser.sleep(200);
+        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+          items[0].click();
+        });
         element.all(by.model('sd.description')).then(function(items) {
           items[1].sendKeys(text_helper.getRandomString(50));
         });
@@ -84,17 +80,17 @@ describe('Attribute create page', function() {
           expect(items[0].getText()).toContain('You have changed the language please check description');
         }); 
         browser.sleep(100);
-      //  element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
-      //   items[0].click();
-      // });
+       element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+          items[0].click();
+        });
         element(by.css('[ng-click="add_desc(attribute.descriptions.descShort)"]')).click();
         element.all(by.css('.growl')).then(function(items) {
-          expect(items[1].getText()).toContain('You are not allowed to add more than limit');
+          expect(items[0].getText()).toContain('You are not allowed to add more than limit');
         }); 
         browser.sleep(100);
-      //   element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
-      //   items[0].click();
-      // });
+        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+          items[0].click();
+        });
         browser.sleep(200);
         element.all(by.model('sd.description')).then(function(items) {
           items[2].sendKeys(text_helper.getRandomString(100));
@@ -108,9 +104,9 @@ describe('Attribute create page', function() {
           expect(items[0].getText()).toContain('You have selected same language more than once');
         }); 
         browser.sleep(100);
-        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
-        items[0].click();
-      });
+        // element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        //   items[0].click();
+        // });
         element.all(by.model('sd.description')).then(function(items) {
           items[3].sendKeys(text_helper.getRandomString(50));
         });
@@ -123,16 +119,16 @@ describe('Attribute create page', function() {
         }); 
         browser.sleep(100);
         element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
-        items[0].click();
-      });
+          items[0].click();
+        });
         element(by.css('[ng-click="add_desc(attribute.descriptions.descLong)"]')).click();
         element.all(by.css('.growl')).then(function(items) {
           expect(items[0].getText()).toContain('You are not allowed to add more than limit');
         }); 
         browser.sleep(100);
-        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
-        items[0].click();
-      });
+        // element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        //   items[0].click();
+        // });
         element.all(by.buttonText('None selected')).then(function(items) {
           items[1].click();
         }); 
@@ -143,64 +139,23 @@ describe('Attribute create page', function() {
         element.all(by.css('.multiSelectFocus')).then(function(items) {
             items[0].click();
         });
-        browser.sleep(200);
+        browser.sleep(2000);
         element.all(by.buttonText('Save')).then(function(items) {
             items[1].click();
         });
-
         element.all(by.css('.growl')).then(function(items) {
           expect(items[0].getText()).toContain('Attribute created succesfully');
         }); 
-        browser.sleep(100);
+        browser.sleep(200);
         element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
-        items[0].click();
-      });
-      });
-
-      it('by adding atleast avo if isRequired is checked', function() {
-        var aId = element(by.model('attribute.attributeId'));
-        aId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
-        browser.sleep(500);
-        element.all(by.buttonText('None selected')).then(function(items) {
-          items[1].click();
-        }); 
-        element.all(by.model('inputLabel.labelFilter')).then(function(items) {
-          items[1].sendKeys(protractor.Key.DOWN+protractor.Key.DOWN);
+          items[0].click();
         });
         browser.sleep(500);
-        element.all(by.css('.multiSelectFocus')).then(function(items) {
-            items[0].click();
-        });
-        browser.sleep(200);
-        var aR = element(by.model('attribute.isRequired'));
-        aR.click();
-        element(by.css('[ng-click="initModal();newAttributeValueOption()"]')).click();
-        browser.sleep(500);
-        var val = element(by.model('newValueOption.value'));
-        val.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
-        browser.sleep(200);
-        element.all(by.buttonText('Add')).then(function(items) {
-            items[1].click();
-        });
-        element.all(by.css('.growl')).then(function(items) {
-          expect(items[0].getText()).toContain('Attribute Value Option created Succesfully');
-        }); 
-        browser.sleep(100);
-        element(by.css('[ng-click="deleteMessage(message)"]')).click();
-        browser.sleep(200);
-        element.all(by.buttonText('Save')).then(function(items) {
-            items[1].click();
-        });
-        element.all(by.css('.growl')).then(function(items) {
-          expect(items[0].getText()).toContain('Attribute created succesfully');
-        }); 
-        browser.sleep(100);
-        element(by.css('[ng-click="deleteMessage(message)"]')).click();
       });
 
       it('by adding avo with multiple languages if isMultiLanguage is checked', function() {
-        var aId = element(by.model('attribute.attributeId'));
-        aId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
+        var attId = element(by.model('attribute.attributeId'));
+        attId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
         element.all(by.buttonText('None selected')).then(function(items) {
           items[1].click();
         }); 
@@ -242,7 +197,53 @@ describe('Attribute create page', function() {
           expect(items[0].getText()).toContain('Attribute created succesfully');
         }); 
         browser.sleep(100);
-        element(by.css('[ng-click="deleteMessage(message)"]')).click();
+        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+          items[0].click();
+        });
+        browser.sleep(100);
+      });
+
+     it('by adding atleast avo if isRequired is checked', function() {
+        var atId = element(by.model('attribute.attributeId'));
+        atId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
+        element.all(by.buttonText('None selected')).then(function(items) {
+          items[1].click();
+        }); 
+        element.all(by.model('inputLabel.labelFilter')).then(function(items) {
+          items[1].sendKeys('e'+protractor.Key.DOWN+protractor.Key.DOWN);
+        });
+        browser.sleep(200);
+        element.all(by.css('.multiSelectFocus')).then(function(items) {
+            items[0].click();
+        });
+        browser.sleep(200);
+        var aIsR = element(by.model('attribute.isRequired'));
+        aIsR.click();
+        browser.sleep(200);
+        element(by.css('[ng-click="initModal();newAttributeValueOption()"]')).click();
+        browser.sleep(500);
+        var valO = element(by.model('newValueOption.value'));
+        valO.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
+        browser.sleep(200);
+        element.all(by.buttonText('Add')).then(function(items) {
+            items[1].click();
+        });
+        element.all(by.css('.growl')).then(function(items) {
+          expect(items[0].getText()).toContain('Attribute Value Option created Succesfully');
+        }); 
+
+        browser.sleep(500);
+        element.all(by.buttonText('Save')).then(function(items) {
+            items[1].click();
+        });
+        element.all(by.css('.growl')).then(function(items) {
+          expect(items[0].getText()).toContain('Attribute created succesfully');
+        }); 
+        browser.sleep(100);
+        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+          items[0].click();
+        });
+        browser.sleep(3000);
       });
 
     });
@@ -262,8 +263,8 @@ describe('Attribute create page', function() {
 
     describe('show error message', function() {
       it('when dirty data is entered in particular fields', function() {
-        var aId = element(by.model('attribute.attributeId'));
-        aId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomSpecialChar(3));
+        var attributeId = element(by.model('attribute.attributeId'));
+        attributeId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomSpecialChar(3));
         element.all(by.css('.help-block')).then(function(items) {
           expect(items[0].getText()).toContain("Attribute id won't allow special character(s)");
         });       
@@ -281,7 +282,7 @@ describe('Attribute create page', function() {
         browser.sleep(200);
         element.all(by.css('.btn-default')).then(function(items){
           items[2].click();
-        });        
+        });       
         element.all(by.model('sd.description')).then(function(items) {
           items[1].sendKeys(text_helper.getRandomString(100));
         });
@@ -314,10 +315,10 @@ describe('Attribute create page', function() {
         }); 
         browser.sleep(500);
         element(by.css('[ng-click="initModal();newAttributeValueOption()"]')).click();
+        browser.sleep(500); 
         element.all(by.model('sd.description')).then(function(items) {
           items[2].sendKeys(text_helper.getRandomSpecialChar(2));
         });
-        
         element.all(by.css('.help-block')).then(function(items) {
           expect(items[10].getText()).toContain("Description won't allow special character(s)");
         });  
@@ -369,13 +370,18 @@ describe('Attribute create page', function() {
         element.all(by.css('.growl')).then(function(items) {
           expect(items[0].getText()).toContain('Please add atleast one attribute value option');
         }); 
-        browser.sleep(100);
-        element(by.css('[ng-click="deleteMessage(message)"]')).click();
+        browser.sleep(300);
+        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+          items[0].click();
+        });
       });
       
       it('same "Attribute Id" is used to create new attribute', function() {
+        browser.sleep(300);
         var aId = element(by.model('attribute.attributeId'));
+        aId.clear();
         aId.sendKeys('1000');
+        browser.sleep(200);
         element.all(by.buttonText('None selected')).then(function(items) {
           items[1].click();
         }); 
@@ -387,15 +393,17 @@ describe('Attribute create page', function() {
             items[0].click();
         });
         browser.sleep(200);
-        browser.sleep(100);
         element.all(by.buttonText('Save')).then(function(items) {
           items[1].click();
         });
+        browser.sleep(200);
         element.all(by.css('.growl')).then(function(items) {
           expect(items[0].getText()).toContain('please provide another attribute id, it already exis');
         }); 
         browser.sleep(100);
-        element(by.css('[ng-click="deleteMessage(message)"]')).click();
+        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+          items[0].click();
+        });
       });
     });
 
@@ -409,7 +417,7 @@ describe('Attribute create page', function() {
       browser.sleep(100);
     });
 
-    ddescribe('get modal popup when click on cancel and', function() {
+    describe('get modal popup when click on cancel and', function() {
       it('able to redirect to Attribute search page', function() {
         var aId = element(by.model('attribute.attributeId'));
         aId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));

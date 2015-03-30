@@ -161,9 +161,13 @@ describe('Attribute Section create page', function() {
         expect(items[0].getText()).toContain('You are not allowed to add more than limit');
       }); 
       browser.sleep(100);
-      element(by.css('[ng-click="deleteMessage(message)"]')).click();
+      element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        items[0].click();
+      });
+      browser.sleep(200);
       element(by.buttonText('Save')).click();
-      element.all(by.css('.growl-item')).then(function(items) {
+      browser.sleep(200);
+      element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('Attribute Section created succesfully');
       }); 
       browser.sleep(100);
