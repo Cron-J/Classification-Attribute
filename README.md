@@ -62,16 +62,22 @@ mocha
  [![Mocha test framework](http://f.cl.ly/items/3l1k0n2A1U3M1I1L210p/Screen%20Shot%202012-02-24%20at%202.21.43%20PM.png)](http://mochajs.org)
 
 ###### *How to run angular test*
+###### *How to run angular test*
+1. *Initial setup*
 
-npm install -g protractor
+    Install jdk and add path to environmental variables
 
-webdriver-manager update
+    npm install -g protractor
 
-webdriver-manager start
+    webdriver-manager update
+    
+2. *Commands to run*
 
-protractor
+    webdriver-manager start
 
-[visit protractor] (http://angular.github.io/protractor/#/)
+    protractor
+
+    [visit protractor] (http://angular.github.io/protractor/#/)
 
 ###### *Model Documentation*
 
