@@ -89,18 +89,20 @@ exports.DeleteClassification = function(request, reply) {
 };
 /** search classification by query*/
 exports.SearchClassification = function(request, reply) {
-    var obj = {}; obj1 = {};
-    var array = request.payload;
-    for( var index=0; index<array.length; index++ ){
-        var key = array[index].key;
-        var value = array[index].value;
-        value = new RegExp(value, "i");
-        if(key == "descShort") key = "descriptions.descShort.description";
-        if(key == "descLong") key = "descriptions.descLong.description";
-        if(key == 'tenantRef') obj1['name'] = value;
-        else obj[key] = value;
+
+    var query = {}, obj1 ={};    
+
+    if (request.payload.type) query['type'] = new RegExp(request.payload.type, "i");
+    if (request.payload.descShort) query['descriptions.descShort.description'] = new RegExp(request.payload.descShort, "i");
+    if (request.payload.descLong) query['descriptions.descLong.description'] = new RegExp(request.payload.descLong, "i");
+    if (request.payload.classificationId) query['classificationId'] = new RegExp(request.payload.classificationId, "i");
+    if (request.payload.versionNo) query['versionNo'] = new RegExp(request.payload.versionNo, "i");
+    if (request.payload.tenantRef){
+        query['tenantRef'] = new RegExp(request.payload.tenantRef, "i");
+        obj1['name'] = new RegExp(request.payload.tenantRef, "i");
     }
-    Classification.find(obj)
+
+    Classification.find(query)
     .populate('tenantRef', null, obj1)
     .sort('classificationId')
     .exec(function(err, classification) {

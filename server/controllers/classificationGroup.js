@@ -123,32 +123,34 @@ exports.DeleteClassificationGroup = function(request, reply) {
 
 /**classification Group search*/
 exports.SearchClassificationGroup = function(request, reply) {
-    var obj = {};
-    var array = request.payload;
-    for( var index=0; index<array.length; index++ ){
-        var key = array[index].key;
-        var value = array[index].value;
-        if(key !== 'classificationRef') value = new RegExp(value, "i");
-        if(key == "descShort") key = "descriptions.descShort.description";
-        if(key == "descLong") key = "descriptions.descLong.description";
-        obj[key] = value;
-    }
-    if(obj['classificationRef'] === undefined) reply(Boom.forbidden("Please provide classification"));
-    ClassificationGroup
-    .find(obj)
-    .sort('classificationGroupId')
-    .exec(function(err, classificationGroup) {
-        if (!err && classificationGroup) {
-            reply(classificationGroup);
-        } else if (err) {
-            // Log it, but don't show the user, don't want to expose ourselves (think security)
-            console.log(err);
-            reply(Boom.notFound());
-        } else {
 
-            reply(Boom.notFound());
-        }
-    });
+    var query = {};
+
+    if (request.payload.classificationRef) query['classificationRef'] = new RegExp(request.payload.classificationRef, "i");
+    if (request.payload.descShort) query['descriptions.descShort.description'] = new RegExp(request.payload.descShort, "i");
+    if (request.payload.descLong) query['descriptions.descLong.description'] = new RegExp(request.payload.descLong, "i");
+    if (request.payload.description) query['descriptions.descShort.description'] = new RegExp(request.payload.description, "i");
+    if(query['classificationRef'] === undefined){
+        return reply(Boom.forbidden("Please provide classification"));
+    }
+    else{
+        ClassificationGroup
+        .find(query)
+        .sort('classificationGroupId')
+        .exec(function(err, classificationGroup) {
+            if (!err && classificationGroup) {
+                reply(classificationGroup);
+            } else if (err) {
+                // Log it, but don't show the user, don't want to expose ourselves (think security)
+                console.log(err);
+                reply(Boom.notFound());
+            } else {
+
+                reply(Boom.notFound());
+            }
+        });
+    }
+    
 };
 /**classification Group tree*/
 exports.ClassificationGroupTree = function(request, reply) {
