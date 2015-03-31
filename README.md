@@ -77,7 +77,7 @@ mocha
 
     protractor
 
-    [visit protractor] (http://angular.github.io/protractor/#/)
+[visit protractor] (http://angular.github.io/protractor/#/)
 
 ###### *Model Documentation*
 
