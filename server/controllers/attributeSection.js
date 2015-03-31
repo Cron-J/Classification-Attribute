@@ -90,18 +90,14 @@ exports.DeleteAttributeSection = function(request, reply) {
 
 /** search query for attributeSection */
 exports.SearchAttributeSection = function(request, reply) {
-    var obj = {};
-    var array = request.payload;
-    for( var index=0; index<array.length; index++ ){
-        var key = array[index].key;
-        var value = array[index].value;
-        value = new RegExp(value, "i");
-        if(key == "description") key = "descriptions.description";
-        if(key == "name") key = "names.name";
-        obj[key] = value;
-    }
+    var query = {};
+    
+    if (request.payload.attributeSectionId) query['attributeSectionId'] = new RegExp(request.payload.attributeSectionId, "i");
+    if (request.payload.description) query['descriptions.description'] = new RegExp(request.payload.description, "i");
+    if (request.payload.name) query['names.name'] = new RegExp(request.payload.name, "i");
+
     AttributeSection
-    .find(obj)
+    .find(query)
     .sort('attributeSectionId')
     .exec(function(err, attributeSection) {
         if (!err && attributeSection) {

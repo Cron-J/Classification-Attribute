@@ -37,12 +37,9 @@ myApp.controller('attributeSearchCtrl', [ '$scope', '$rootScope', '$http','$loca
 
 		$scope.searchSectionList = function($viewValue){
 			$scope.setSectionVar = true;
-			var temp = [];
 			var obj = {};
-			obj['key'] = "attributeSectionId";
-   		obj['value'] = $viewValue;
-			temp.push(obj);
-			return attributeSection.searchQuery({url:'attributeSectionSearch'},temp).$promise.
+			obj['attributeSectionId'] = $viewValue;
+			return attributeSection.searchQuery({url:'attributeSectionSearch'},obj).$promise.
 			then(function(data){
 				var sectionList = [];
 	      angular.forEach(data, function(item){     
@@ -220,8 +217,7 @@ myApp.controller('attributeSearchCtrl', [ '$scope', '$rootScope', '$http','$loca
 		};
 
 		function customTransform(){
-			var temp = [];
-			console.log();
+			var query = {};
 			for(key in $scope.searchQuery){
 				switch(key){
 					case 'attributeId':
@@ -229,14 +225,11 @@ myApp.controller('attributeSearchCtrl', [ '$scope', '$rootScope', '$http','$loca
 					case 'description':
 					case 'sectionRef':
 				if($scope.searchQuery[key]!=""){
-					temp.push({
-						"key": key,
-						"value": $scope.searchQuery[key]
-					})						
+					query[key] = $scope.searchQuery[key];										
 				}
 				}
 			}
-			return temp;
+			return query;
 		}
 
 		$scope.pagedItems = [];

@@ -76,12 +76,9 @@ myApp.controller('classificationGroupCtrl', ['$scope', '$rootScope',
 
 		$scope.attDesc = [];
 		$scope.searchAttributeList = function($viewValue){ 
-			var temp = [];
 			var obj = {};
-			obj['key'] = "attributeId";
-   		obj['value'] = $viewValue;
-			temp.push(obj);
-			return attribute.searchQuery({url:'attributeSearch'},temp).$promise.
+			obj['attributeId'] = $viewValue;
+			return attribute.searchQuery({url:'attributeSearch'},obj).$promise.
 			then(function(data){	 
 				var attributes = [];
 	      angular.forEach(data, function(item){  
@@ -100,16 +97,11 @@ myApp.controller('classificationGroupCtrl', ['$scope', '$rootScope',
 		}
 
 		$scope.searchParentList = function($viewValue){
-			var temp = [];
 			var obj = {};
-			obj['key'] = "classificationGroupId";
- 			obj['value'] = $viewValue;
- 			temp.push(obj);
- 			var obj1 = {};
- 			obj1['key'] = "classificationRef";
- 			obj1['value']= $rootScope.classification_id;
-			temp.push(obj1);
-			return classificationGroup.searchQuery({url:'classificationGroupSearch'},temp).$promise.
+			obj['classificationGroupId'] = $viewValue;
+ 			obj['classificationRef'] = $rootScope.classification_id;
+			
+			return classificationGroup.searchQuery({url:'classificationGroupSearch'},obj).$promise.
 			then(function(data){
 				var parents = [];
 	      angular.forEach(data, function(item){

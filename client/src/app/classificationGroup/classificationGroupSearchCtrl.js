@@ -11,10 +11,8 @@ myApp.controller('classificationGroupSearchCtrl', [ '$scope', '$http','$location
 		$scope.search = function(){
 			var rqstData = customTransform();
 			var obj1 = {};
-   			obj1['key'] = "classificationRef";
-   			obj1['value']= $rootScope.classification_id;
-			rqstData.push(obj1);
-			classificationGroup.searchQuery({url:'classificationGroupSearch'},rqstData).$promise.then(function(data){
+   			obj1['classificationRef'] = $rootScope.classification_id;
+			classificationGroup.searchQuery({url:'classificationGroupSearch'},obj1).$promise.then(function(data){
 				$scope.searchVar.value = true;
 				$scope.searchResult = [];
 				$scope.searchResult = data;
@@ -74,21 +72,18 @@ myApp.controller('classificationGroupSearchCtrl', [ '$scope', '$http','$location
 		};
 
 		function customTransform(){
-			var temp = [];
+			var query = {};
 			for(key in $scope.searchQuery){
 				switch(key){
 					case 'classificationGroupId':
 					case 'description':
 					case 'orderNo':
 				if($scope.searchQuery[key]!=""){
-					temp.push({
-						"key": key,
-						"value": $scope.searchQuery[key]
-					})						
+					query[key] = $scope.searchQuery[key];						
 				}
 				}
 			}
-			return temp;
+			return query;
 		}
 
 		$scope.pagedItems = [];

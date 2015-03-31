@@ -120,7 +120,7 @@ myApp.controller('attributeSectionSearchCtrl', [ '$scope','$rootScope',
 		};
 
 		function customTransform(){
-			var temp = [];
+			var query = {};
 			if($scope.searchSectionList){
 				var dump1 = $scope.searchQuery;
 				$scope.searchQuery = $scope.searchSectionList;
@@ -131,16 +131,13 @@ myApp.controller('attributeSectionSearchCtrl', [ '$scope','$rootScope',
 					case 'name':
 					case 'description':
 				if($scope.searchQuery[key]!=""){
-					temp.push({
-						"key": key,
-						"value": $scope.searchQuery[key]
-					})						
+					query[key] = $scope.searchQuery[key];						
 				}
 				}
 			}
 			if(dump1 != undefined)
 				$scope.searchQuery = dump1;
-			return temp;
+			return query;
 		}
 
 		$scope.pagedItems = [];

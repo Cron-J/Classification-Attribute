@@ -94,17 +94,17 @@ exports.DeleteAttribute = function(request, reply) {
 
 /** search query for attribute */
 exports.SearchAttribute = function(request, reply) {
-    var obj = {}; obj1 = {};
-    var array = request.payload;
-    for( var index=0; index<array.length; index++ ){
-        var key = array[index].key;
-        var value = array[index].value;
-        value = new RegExp(value, "i");
-        if(key == "description") key = "descriptions.descShort.description";
-        if(key == "sectionRef") obj1['attributeSectionId'] = value;
-        else obj[key] = value;
+    var query = {}, obj1 ={};    
+
+    if (request.payload.sectionRef) {
+        query['sectionRef'] = new RegExp(request.payload.sectionRef, "i");
+        obj1['attributeSectionId'] = new RegExp(request.payload.sectionRef, "i");
     }
-    Attribute.find(obj)
+    if (request.payload.attributeId) query['attributeId'] = new RegExp(request.payload.attributeId, "i");
+    if (request.payload.description) query['descriptions.descShort.description'] = new RegExp(request.payload.description, "i");
+    if (request.payload.extAttributeId) query['extAttributeId'] = new RegExp(request.payload.extAttributeId, "i");
+
+    Attribute.find(query)
     .populate('sectionRef', null, obj1)
     .sort('attributeId')
     .exec(function(err, attribute) {

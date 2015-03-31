@@ -52,12 +52,9 @@ myApp.controller('classificationSearchCtrl', [ '$scope', '$http','$location','cl
 
 		$scope.searchTenantList = function ($viewValue) {
 			$scope.setTenantVar = true;
-			var temp = [];
 			var obj = {};
-			obj['key'] = "name";
-   		obj['value'] = $viewValue;
-			temp.push(obj);
-			return tenant.searchQuery({url:'tenantSearch'},temp).$promise.then(function(data){
+			obj['name'] = $viewValue;
+			return tenant.searchQuery({url:'tenantSearch'},obj).$promise.then(function(data){
 				var tenantList = [];
 	      angular.forEach(data, function(item){     
 	        if(item.description != undefined && 
@@ -217,7 +214,7 @@ myApp.controller('classificationSearchCtrl', [ '$scope', '$http','$location','cl
 		};
 
 		function customTransform(){
-			var temp = [];
+			var query = {};
 			for(key in $scope.searchQuery){
 				switch(key){
 					case 'classificationId':
@@ -227,31 +224,25 @@ myApp.controller('classificationSearchCtrl', [ '$scope', '$http','$location','cl
 					case 'type':
 					case 'tenantRef' :
 				if($scope.searchQuery[key]!=""){
-					temp.push({
-						"key": key,
-						"value": $scope.searchQuery[key]
-					})						
+					query[key] = $scope.searchQuery[key];						
 				}
 				}
 			}
-			return temp;
+			return query;
 		}
 
 		function customTenantTransform(){
-			var temp = [];
+			var query = {};
 			for(key in $scope.searchTenantQuery){
 				switch(key){
 					case 'name':
 					case 'description':
 				if($scope.searchQuery[key]!=""){
-					temp.push({
-						"key": key,
-						"value": $scope.searchTenantQuery[key]
-					})						
+					query[key] = $scope.searchTenantQuery[key];					
 				}
 				}
 			}
-			return temp;
+			return query;
 		}
 
 		$scope.list_section = function(){
