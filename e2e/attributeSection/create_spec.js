@@ -21,7 +21,7 @@ describe('Attribute Section create page', function() {
   describe('should', function() {
     it('create the Attribute Section if sufficient details are provided', function() {
     	var asId = element(by.model('attributeSection.attributeSectionId'));
-    	asId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
+    	asId.sendKeys(text_helper.getRandomString(2)+'60'+text_helper.getRandomNumber(3));
       element(by.buttonText('Save')).click();
       element.all(by.css('.growl')).then(function(items) {
         expect(items[0].getText()).toContain('Attribute Section created succesfully');

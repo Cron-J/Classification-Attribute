@@ -44,13 +44,15 @@ describe('Attribute create page', function() {
         element.all(by.buttonText('Save')).then(function(items) {
             items[1].click();
         });
-        element.all(by.css('.growl')).then(function(msgs) {
-          expect(msgs[0].getText()).toContain('Attribute created succesfully');
-        }); 
-        browser.sleep(3000);
+        browser.sleep(200);
+        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+          items[0].click();
+        });
+        browser.sleep(300);
       });
 
       it('evenhtough warning messages are present', function() { 
+        browser.sleep(100);
         var atrrId = element(by.model('attribute.attributeId'));
         atrrId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(3));
         browser.sleep(200);
@@ -80,7 +82,7 @@ describe('Attribute create page', function() {
           expect(items[0].getText()).toContain('You have changed the language please check description');
         }); 
         browser.sleep(100);
-       element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
+        element.all(by.css('[ng-click="deleteMessage(message)"]')).then(function(items) { 
           items[0].click();
         });
         element(by.css('[ng-click="add_desc(attribute.descriptions.descShort)"]')).click();

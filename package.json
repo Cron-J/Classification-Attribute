@@ -21,7 +21,7 @@
     "mongoose-auto-increment": "3.1.0",
     "mongoose-validators": "^0.1.0",
     "nipple": "^2.5.6",
-    "protractor": "^1.5.0",
+    "protractor": "^2.0.0",
     "unitofmeasure": "0.0.5",
     "wreck": "^5.0.1"
   },

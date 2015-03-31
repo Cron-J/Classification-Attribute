@@ -43,7 +43,8 @@ describe('Classification create page', function() {
         browser.sleep(200);
       });
 
-      it('evenhtough wraning messages are present', function() {
+      it('evenhtough warning messages are present', function() {
+        browser.sleep(200);
         element(by.css('[ng-click="reset()"]')).click();
         var cId = element(by.model('classification.classificationId'));
         cId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomNumber(2));
@@ -53,6 +54,7 @@ describe('Classification create page', function() {
         element.all(by.css('[ng-click="searchTenantDetails();setTenantList()"]')).then(function(items) {
          items[1].click();
         });
+        browser.sleep(500);
         element.all(by.css('[ng-click="getTenantInfo(result)"]')).then(function(items) {
          items[1].click();
         });
@@ -174,65 +176,54 @@ describe('Classification create page', function() {
 
     describe('show error message when', function() {
       it('dirty data is entered in particular fields', function() {
-        var clId = element(by.model('classification.classificationId'));
-        clId.sendKeys(text_helper.getRandomString(4)+text_helper.getRandomSpecialChar(2));
+        var cId = element(by.model('classification.classificationId'));
+        cId.sendKeys(text_helper.getRandomString(3)+'60'+text_helper.getRandomSpecialChar(2));
         element.all(by.css('.help-block')).then(function(items) {
           expect(items[0].getText()).toContain("Classification id won't allow special character(s)");
         }); 
-        clId.sendKeys(text_helper.getRandomString(3)+text_helper.getRandomNumber(2));
-        browser.sleep(100);
         element.all(by.model('sd.description')).then(function(items) {
           items[0].sendKeys(text_helper.getRandomString(100));
         });
         element(by.css('[ng-click="add_desc(classification.descriptions.descShort)"]')).click();
+        element.all(by.model('sd.description')).then(function(items) {
+          items[1].sendKeys(text_helper.getRandomString(10) + text_helper.getRandomSpecialChar(2));
+        });
+        browser.sleep(200);
+        element.all(by.css('.help-block')).then(function(items) {
+          expect(items[2].getText()).toContain("Short description won't allow special character(s)");
+        }); 
+        browser.sleep(200);
+        element.all(by.css('.btn-default')).then(function(items){
+          items[3].click();
+        });
+        element(by.css('[ng-click="add_desc(classification.descriptions.descLong)"]')).click();
         browser.sleep(100);
         element.all(by.model('sd.description')).then(function(items) {
           items[1].sendKeys(text_helper.getRandomString(10) + text_helper.getRandomSpecialChar(2));
         });
+        browser.sleep(200);
         element.all(by.css('.help-block')).then(function(items) {
-          expect(items[2].getText()).toContain("Short description won't allow special character(s)");
-        }); 
-        browser.sleep(100);
-        element.all(by.css('.btn-default')).then(function(btnitems){
-          btnitems[3].click();
-        });       
-        browser.sleep(100); 
-        element.all(by.model('sd.description')).then(function(items) {
-          items[1].sendKeys(text_helper.getRandomString(100));
-        });
-        element(by.css('[ng-click="add_desc(classification.descriptions.descLong)"]')).click();
-        element.all(by.model('sd.description')).then(function(items) {
-          items[2].sendKeys(text_helper.getRandomString(10) + text_helper.getRandomSpecialChar(2));
-        });
-        browser.sleep(100);
-        element.all(by.css('.help-block')).then(function(items) {
-          expect(items[3].getText()).toContain("Long description won't allow special character(s)");
+          expect(items[2].getText()).toContain("Long description won't allow special character(s)");
         }); 
         browser.sleep(200);
-        // var orNo = element(by.model('classification.orderNo'));
-        // orNo.sendKeys(text_helper.getRandomString(2));
-        // element.all(by.css('.help-block')).then(function(items) {
-        //   expect(items[4].getText()).toContain("Order number will allow only numbers");
-        // }); 
-        // browser.sleep(100);
-        // orNo.clear();
-        // orNo.sendKeys(text_helper.getRandomNumber(5));
-        // browser.sleep(200);
-        // var do1 = element(by.model('classification.documentUrl1'));
-        // do1.sendKeys('ww.'+text_helper.getRandomSpecialChar(2)+text_helper.getRandomString(5)+'.in');
-        // element.all(by.css('.help-block')).then(function(items) {
-        //   expect(items[5].getText()).toContain("Provide valid url for document 1");
-        // }); 
-        // var du2 = element(by.model('classification.documentUrl2'));
-        // du2.sendKeys('https//www.'+text_helper.getRandomString(6)+text_helper.getRandomSpecialChar(2)+'.co');
-        // element.all(by.css('.help-block')).then(function(items) {
-        //   expect(items[6].getText()).toContain("Provide valid url for document 2");
-        // }); 
-        // var du3 = element(by.model('classification.documentUrl3'));
-        // du3.sendKeys('http.'+text_helper.getRandomString(1)+text_helper.getRandomSpecialChar(2)+'.com');
-        // element.all(by.css('.help-block')).then(function(items) {
-        //   expect(items[7].getText()).toContain("Provide valid url for document 3");
-        // }); 
+        var oNo = element(by.model('classification.orderNo'));
+        oNo.sendKeys(text_helper.getRandomNumber(4));
+        var du1 = element(by.model('classification.documentUrl1'));
+        du1.sendKeys('ww.'+text_helper.getRandomSpecialChar(2)+text_helper.getRandomString(5)+'.in');
+        element.all(by.css('.help-block')).then(function(items) {
+          expect(items[4].getText()).toContain("Provide valid url for document 1");
+        });
+        var du2 = element(by.model('classification.documentUrl2'));
+        du2.sendKeys('https//www.'+text_helper.getRandomString(6)+text_helper.getRandomSpecialChar(2)+'.co');
+        element.all(by.css('.help-block')).then(function(items) {
+          expect(items[5].getText()).toContain("Provide valid url for document 2");
+        }); 
+        var du3 = element(by.model('classification.documentUrl3'));
+        du3.sendKeys('http.'+text_helper.getRandomString(1)+text_helper.getRandomSpecialChar(2)+'.com');
+        element.all(by.css('.help-block')).then(function(items) {
+          expect(items[6].getText()).toContain("Provide valid url for document 3");
+        }); 
+        browser.sleep(100);
       });
       
       it('same "Classification Id" is used to create new classification', function() {
