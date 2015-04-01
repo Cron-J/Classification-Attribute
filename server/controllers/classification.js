@@ -87,6 +87,7 @@ exports.DeleteClassification = function(request, reply) {
         }
     });
 };
+
 /** search classification by query*/
 exports.SearchClassification = function(request, reply) {
 
@@ -97,10 +98,7 @@ exports.SearchClassification = function(request, reply) {
     if (request.payload.descLong) query['descriptions.descLong.description'] = new RegExp(request.payload.descLong, "i");
     if (request.payload.classificationId) query['classificationId'] = new RegExp(request.payload.classificationId, "i");
     if (request.payload.versionNo) query['versionNo'] = new RegExp(request.payload.versionNo, "i");
-    if (request.payload.tenantRef){
-        query['tenantRef'] = new RegExp(request.payload.tenantRef, "i");
-        obj1['name'] = new RegExp(request.payload.tenantRef, "i");
-    }
+    if (request.payload.tenantRef) obj1['name'] = new RegExp(request.payload.tenantRef, "i");
 
     Classification.find(query)
     .populate('tenantRef', null, obj1)

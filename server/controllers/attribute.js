@@ -96,10 +96,7 @@ exports.DeleteAttribute = function(request, reply) {
 exports.SearchAttribute = function(request, reply) {
     var query = {}, obj1 ={};    
 
-    if (request.payload.sectionRef) {
-        query['sectionRef'] = new RegExp(request.payload.sectionRef, "i");
-        obj1['attributeSectionId'] = new RegExp(request.payload.sectionRef, "i");
-    }
+    if (request.payload.sectionRef) obj1['attributeSectionId'] = new RegExp(request.payload.sectionRef, "i");
     if (request.payload.attributeId) query['attributeId'] = new RegExp(request.payload.attributeId, "i");
     if (request.payload.description) query['descriptions.descShort.description'] = new RegExp(request.payload.description, "i");
     if (request.payload.extAttributeId) query['extAttributeId'] = new RegExp(request.payload.extAttributeId, "i");
