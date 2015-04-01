@@ -107,6 +107,9 @@ myApp.controller('classificationSearchCtrl', [ '$scope', '$http','$location','cl
 				}
 			}
 			$scope.setTenantVar = false;
+			if(rqstData.type){
+				rqstData.type = rqstData.type[0].code;
+			}
 			for (var i = 0; i < rqstData.length; i++) {
 				if(rqstData[i].key == "type"){
 					rqstData[i].value = rqstData[i].value[0].code;

@@ -79,16 +79,14 @@ exports.DeleteTenant = function (request, reply) {
 
 /** search query for teannt */
 exports.SearchTenant = function(request, reply) {
-    var obj = {};
-    var array = request.payload;
-    for( var index=0; index<array.length; index++ ){
-        var key = array[index].key;
-        var value = array[index].value;
-        value = new RegExp(value, "i");
-        obj[key] = value;
-    }
+    
+    var query = {};
+    
+    if (request.payload.name) query['name'] = new RegExp(request.payload.name, "i");
+    if (request.payload.description) query['description'] = new RegExp(request.payload.description, "i");
+
     Tenant
-        .find(obj)
+        .find(query)
         .sort('name')
         .exec(function(err, tenant) {
         if (!err && tenant) {

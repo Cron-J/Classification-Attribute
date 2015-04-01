@@ -15,12 +15,9 @@ myApp.controller('tenantSearchCtrl', [ '$scope', '$http','$location','classifica
 
 		$scope.searchTenantList = function ($viewValue) {
 			$scope.setTenantVar = true;
-			var temp = [];
 			var obj = {};
-			obj['key'] = "name";
-   		obj['value'] = $viewValue;
-			temp.push(obj);
-			return tenant.searchQuery({url:'tenantSearch'},temp).$promise.then(function(data){
+			obj['name'] = $viewValue;
+			return tenant.searchQuery({url:'tenantSearch'},obj).$promise.then(function(data){
 				var tenantList = [];
 	      angular.forEach(data, function(item){     
 	        if(item.description != undefined && 
@@ -132,20 +129,17 @@ myApp.controller('tenantSearchCtrl', [ '$scope', '$http','$location','classifica
 		};
 
 		function customTenantTransform(){
-			var temp = [];
+			var query = {};
 			for(key in $scope.searchQuery){
 				switch(key){
 					case 'name':
 					case 'description':
 				if($scope.searchQuery[key]!=""){
-					temp.push({
-						"key": key,
-						"value": $scope.searchQuery[key]
-					})						
+					query[key] = $scope.searchQuery[key];						
 				}
 				}
 			}
-			return temp;
+			return query;
 		}
 
 		$scope.pagedItems = [];
