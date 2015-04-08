@@ -39,6 +39,18 @@ Prefix the choice with ! to persist it to bower.json
 
 ### Run an app
 
+###### *Run Mongodb Database*
+
+[Mongodb] (http://docs.mongodb.org/manual/)
+
+###### *import database*
+
+import sample data using the given command
+
+mongorestore --host localhost --port 27017 --db [database_name] [path of sample database file]
+
+Note: You will find sample database in root sample-database/classification-attribute.
+
 ###### *Run Server*
 
 You need to run the following command in root directory of an app in command prompt.
