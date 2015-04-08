@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "classification-attribute.attributes" }, { "v" : 1, "unique" : true, "key" : { "attributeId" : 1 }, "name" : "attributeId_1", "ns" : "classification-attribute.attributes", "background" : true, "safe" : null } ] }
