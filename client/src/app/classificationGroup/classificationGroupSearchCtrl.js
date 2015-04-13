@@ -8,11 +8,10 @@ myApp.controller('classificationGroupSearchCtrl', [ '$scope', '$http','$location
 		$scope.reset_search = function() {
 			$scope.searchQuery = angular.copy($scope.master);
 		};
-		$scope.search = function(){
-			var rqstData = customTransform();
-			var obj1 = {};
-   			obj1['classificationRef'] = $rootScope.classification_id;
-			classificationGroup.searchQuery({url:'classificationGroupSearch'},obj1).$promise.then(function(data){
+		$scope.search = function(obj){
+			obj['classificationRef'] = $rootScope.classification_id;
+			var rqstData = customTransform(obj);
+			classificationGroup.searchQuery({url:'classificationGroupSearch'},rqstData).$promise.then(function(data){
 				$scope.searchVar.value = true;
 				$scope.searchResult = [];
 				$scope.searchResult = data;
@@ -77,7 +76,7 @@ myApp.controller('classificationGroupSearchCtrl', [ '$scope', '$http','$location
 				switch(key){
 					case 'classificationGroupId':
 					case 'description':
-					case 'orderNo':
+					case 'classificationRef':
 				if($scope.searchQuery[key]!=""){
 					query[key] = $scope.searchQuery[key];						
 				}
