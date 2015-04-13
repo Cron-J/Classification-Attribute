@@ -18,7 +18,7 @@ module.exports = {
         databaseName : "classification-attribute",
         userName : "event",
         password : "event",
-        //url: "mongodb://<user>:<password>@<url>"
+        url: "mongodb://gaurav:cronj123@novus.modulusmongo.net:27017/i4wOnupy"
 
     },
     configuration : {

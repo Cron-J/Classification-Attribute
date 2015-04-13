@@ -126,7 +126,7 @@ exports.SearchClassificationGroup = function(request, reply) {
 
     var query = {};
 
-    if (request.payload.classificationRef) query['classificationRef'] = new RegExp(request.payload.classificationRef, "i");
+    if (request.payload.classificationRef) query['classificationRef'] = request.payload.classificationRef;
     if (request.payload.descShort) query['descriptions.descShort.description'] = new RegExp(request.payload.descShort, "i");
     if (request.payload.descLong) query['descriptions.descLong.description'] = new RegExp(request.payload.descLong, "i");
     if (request.payload.description) query['descriptions.descShort.description'] = new RegExp(request.payload.description, "i");
