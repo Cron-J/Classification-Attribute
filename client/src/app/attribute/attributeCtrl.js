@@ -62,9 +62,9 @@ myApp.controller('attributeCtrl', [ '$scope', '$http', '$routeParams','$location
 		for(var i=0; i < list.length; i++){
 			k= list.length-1;
 			if(i == k){
-				if(list[k-1].description != null && 
-					list[k-1].description != "" && 
-					i <	$scope.languageList.length){
+				if((list[k-1].description != null && 
+									list[k-1].description != "" && 
+									i <	$scope.languageList.length)){
 					list[i] = {"language":'de', "description": null};
 				} else {
 					list.length--;
@@ -160,8 +160,10 @@ myApp.controller('attributeCtrl', [ '$scope', '$http', '$routeParams','$location
 					var secInfo = attribute_details.sectionRef;
 					$scope.secId = attribute_details.sectionRef.attributeSectionId;
 				}
-				else
-					$scope.secId = attribute_details.sectionRef;
+				else {
+					if($scope.secId == "")
+						$scope.secId = attribute_details.sectionRef;
+				}
 			} 
 			attributeSection.get({url:'attributeSectionOne',id:$scope.secId}).$promise.then(function(data){
 				if(data.exist == "true" || $scope.secId == undefined){
@@ -215,7 +217,7 @@ myApp.controller('attributeCtrl', [ '$scope', '$http', '$routeParams','$location
 				}
 			}).catch(function(error){
 					growl.addErrorMessage('oops! Something went wrong');
-			})
+			}) 
 		} else {
 			growl.addErrorMessage('Please add atleast one attribute value option');
 		}
@@ -307,6 +309,7 @@ myApp.controller('attributeCtrl', [ '$scope', '$http', '$routeParams','$location
 	$scope.edit_attribute = function(id){
 		$scope.changeView.attributeShow=true;
 		$scope.obj.id=id;
+		console.log('**********', id);
 		$scope.page = 'edit';
 		view_attribute();
 	};
@@ -342,8 +345,10 @@ myApp.controller('attributeCtrl', [ '$scope', '$http', '$routeParams','$location
 			if(attribute_details.sectionRef != undefined){
 				if(attribute_details.sectionRef.attributeSectionId)
 					$scope.secId = attribute_details.sectionRef.attributeSectionId;
-				else
-					$scope.secId = attribute_details.sectionRef;
+				else{
+					if($scope.secId == "")
+						$scope.secId = attribute_details.sectionRef;
+				}
 			} 
 			attributeSection.get({url:'attributeSectionOne',id:$scope.secId}).$promise.then(function(data){
 				if(data.exist == "true" || $scope.secId == undefined){
