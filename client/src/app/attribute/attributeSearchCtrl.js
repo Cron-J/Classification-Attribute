@@ -39,6 +39,8 @@ myApp.controller('attributeSearchCtrl', [ '$scope', '$rootScope', '$http','$loca
 			$scope.setSectionVar = true;
 			var obj = {};
 			obj['attributeSectionId'] = $viewValue;
+			// Block the user interface
+   		blockUI.start();
 			return attributeSection.searchQuery({url:'attributeSectionSearch'},obj).$promise.
 			then(function(data){
 				var sectionList = [];
@@ -52,6 +54,8 @@ myApp.controller('attributeSearchCtrl', [ '$scope', '$rootScope', '$http','$loca
 	        	sectionList.push({ "attributeSectionId": item.attributeSectionId, "_id": item._id });
 	        }
 	      });
+	      // Unblock the user interface
+		  	blockUI.stop();
 	      return sectionList;
 			}).catch(function(error){
 				growl.addErrorMessage('oops! Something went wrong');

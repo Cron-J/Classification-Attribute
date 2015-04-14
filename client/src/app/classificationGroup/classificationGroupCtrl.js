@@ -1,7 +1,7 @@
 myApp.controller('classificationGroupCtrl', ['$scope', '$rootScope', 
 	'$http', '$location', 'classificationGroup', '$timeout', 
 	'classification', 'attribute', 'status', 'growl', '$modal', 
-	'$routeParams', 'blockUI',
+	'$routeParams', 'blockUI', 
 	function($scope, $rootScope, $http, $location, classificationGroup, 
 		$timeout, classification, attribute, status, growl, $modal, 
 		$routeParams, blockUI, $modalInstance){

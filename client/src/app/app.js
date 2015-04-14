@@ -20,7 +20,7 @@ var myApp = angular
 			.when('/new_attributeSection',
 				{templateUrl: 'app/attributeSection/attributeSection.html'}, 
 				{controller: 'attributeSection/attributeSectionCtrl.js'})
-			.when('/attributeSection/:id',
+			.when('/attributeSection/:attributeSectionId',
 				{templateUrl: 'app/attributeSection/attributeSection.html'}, 
 				{controller: 'attributeSection/attributeSectionCtrl.js'})
 			.when('/attributeSection/edit/:id',
@@ -33,7 +33,7 @@ var myApp = angular
 			.when('/new_attribute',
 				{templateUrl: 'app/attribute/attribute.html'}, 
 				{controller: 'attribute/attributeCtrl.js'})
-			.when('/attribute/:id',
+			.when('/attribute/:attributeId',
 				{templateUrl: 'app/attribute/attribute.html'}, 
 				{controller: 'attribute/attributeCtrl.js'})
 			.when('/attribute/edit/:id',
@@ -47,7 +47,7 @@ var myApp = angular
 			.when('/new_classification',
 				{templateUrl: 'app/classification/classification.html'}, 
 				{controller: 'classification/classificationCtrl.js'})
-			.when('/classification/:id',
+			.when('/classification/:classificationId',
 				{templateUrl: 'app/classification/classification.html'}, 
 				{controller: 'classification/classificationCtrl.js'})
 			.when('/classification/edit/:id',
@@ -58,7 +58,7 @@ var myApp = angular
 			.when('/classificationGroups',
 				{templateUrl: 'app/classificationGroup/classificationGroup.html'}, 
 				{controller: 'classificationGroup/classificationGroupCtrl.js'})
-			.when('/classificationGroup/:id',
+			.when('/classificationGroup/:classificationGroupId',
 				{templateUrl: 'app/classificationGroup/classificationGroup.html'}, 
 				{controller: 'classificationGroup/classificationGroupCtrl.js'})
 			.when('/classificationGroup/edit/:id',

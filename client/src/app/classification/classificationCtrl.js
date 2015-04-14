@@ -264,6 +264,12 @@ myApp.controller('classificationCtrl', [ '$scope', '$rootScope','$http',
 	$scope.list_section();
 
 	function view_classification(){
+		if($routeParams.classificationId) {
+			if(!$scope.obj) {
+				$scope.obj = {};
+				$scope.obj.id = $routeParams.classificationId;
+			}
+		}
 		classification.get({url:'classification',classification_id: $scope.obj.id }).$promise.then(function(data){
 			$scope.classification = data;
 			$scope.valueDetails = $scope.classification.timestamp;

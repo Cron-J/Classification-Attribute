@@ -1,6 +1,7 @@
 myApp.controller('tenantSearchCtrl', [ '$scope', '$http','$location','classification',
-	'growl','$modal','$routeParams', 'tenant',
-	function($scope, $http, $location, classification, growl, $modal, $routeParams, tenant){
+	'growl','$modal','$routeParams', 'tenant', 'blockUI',
+	function($scope, $http, $location, classification, growl, $modal, 
+		$routeParams, tenant, blockUI){
 
 		$scope.searchTenant = function () {
 			$scope.setTenantsList = false;
@@ -17,6 +18,8 @@ myApp.controller('tenantSearchCtrl', [ '$scope', '$http','$location','classifica
 			$scope.setTenantVar = true;
 			var obj = {};
 			obj['name'] = $viewValue;
+			// Block the user interface
+   		blockUI.start();
 			return tenant.searchQuery({url:'tenantSearch'},obj).$promise.then(function(data){
 				var tenantList = [];
 	      angular.forEach(data, function(item){     
@@ -28,6 +31,8 @@ myApp.controller('tenantSearchCtrl', [ '$scope', '$http','$location','classifica
 	        	tenantList.push({ "name": item.name, "_id": item._id });
 	        }
 	      });
+	      // Unblock the user interface
+		  	blockUI.stop();
 	      return tenantList;
 			}).catch(function(error){
 				growl.addErrorMessage('oops! Something went wrong');
@@ -35,6 +40,7 @@ myApp.controller('tenantSearchCtrl', [ '$scope', '$http','$location','classifica
 		}
 
 		$scope.searchTenantDetails = function () {
+
 			var rqstData = customTenantTransform();
 			tenant.searchQuery({url:'tenantSearch'},rqstData).$promise.then(function(data){
 				$scope.searchResult = data;

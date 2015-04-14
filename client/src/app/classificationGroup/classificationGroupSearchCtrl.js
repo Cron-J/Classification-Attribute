@@ -1,5 +1,7 @@
-myApp.controller('classificationGroupSearchCtrl', [ '$scope', '$http','$location','classificationGroup','growl','$modal','$routeParams','$rootScope',
-	function($scope, $http, $location, classificationGroup, growl, $modal, $routeParams, $rootScope){
+myApp.controller('classificationGroupSearchCtrl', [ '$scope', '$http','$location',
+	'classificationGroup','growl','$modal','$routeParams','$rootScope', 'blockUI',
+	function($scope, $http, $location, classificationGroup, growl, $modal, 
+		$routeParams, $rootScope, blockUI){
 
 		$scope.master = {};
 
@@ -11,6 +13,8 @@ myApp.controller('classificationGroupSearchCtrl', [ '$scope', '$http','$location
 		$scope.search = function(obj){
 			obj['classificationRef'] = $rootScope.classification_id;
 			var rqstData = customTransform(obj);
+			// Block the user interface
+   		blockUI.start();
 			classificationGroup.searchQuery({url:'classificationGroupSearch'},rqstData).$promise.then(function(data){
 				$scope.searchVar.value = true;
 				$scope.searchResult = [];
@@ -18,6 +22,8 @@ myApp.controller('classificationGroupSearchCtrl', [ '$scope', '$http','$location
 				$scope.searchQuery.searchDirty = true;
 				$scope.currentPage = 0;
 				$scope.groupToPages();
+				// Unblock the user interface
+		  	blockUI.stop();
 			}).catch(function(error){
 				growl.addErrorMessage('oops! Something went wrong');
 			});
