@@ -254,6 +254,12 @@ myApp.controller('attributeSectionCtrl', [ '$scope','$rootScope', '$http',
 		$scope.view_page();
 
 		function view_attributeSection(){
+			if ($routeParams.attributeSectionId) {
+				if(!$scope.obj){
+					$scope.obj = {};
+					$scope.obj.id = $routeParams.attributeSectionId;
+				}
+			};
 			attributeSection.get({url:'attributeSection',attributeSection_id:$scope.obj.id}).$promise.then(function(data){
 				$scope.attributeSection = data;
 				$scope.valueDetails = $scope.attributeSection.timestamp;
