@@ -257,7 +257,7 @@ myApp.controller('attributeCtrl', [ '$scope', '$http', '$routeParams','$location
 		$scope.setSectionsList = false;
 		$scope.searchVar.value = false;
 		$('#sectionPopupModal').modal('show');
-		$scope.reset_search();
+		// $scope.reset_search();
 	}
 	$scope.setSectionList = function () {
 		$scope.searchVar.value = true;
@@ -397,9 +397,9 @@ myApp.controller('attributeCtrl', [ '$scope', '$http', '$routeParams','$location
 	$scope.view_page();
 
 	function view_attribute(){
-		if($scope.obj == undefined){
+		if($routeParams.attributeId){
 			$scope.obj = {};
-			$scope.obj.id = $routeParams.id;
+			$scope.obj.id = $routeParams.attributeId;
 			$scope.isFromCG = true;
 		}
 		attribute.get({url:'attribute',attribute_id:$scope.obj.id}).$promise.then(function(data){
