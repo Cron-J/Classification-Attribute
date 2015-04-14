@@ -35,7 +35,7 @@ Unable to find a suitable version for angular, please choose one:
 
 Prefix the choice with ! to persist it to bower.json
 
-[?] Answer: 2
+[?] Answer: 3 
 
 ### Run an app
 
