@@ -19,6 +19,11 @@ exports.GetAll = function(request, reply) {
 
 /** get all attribute details */
 exports.GetAttributesList = function(request, reply) {
+
+    if (!(request.payload.attributeIds instanceof Array)) {
+        request.payload.attributeIds = [request.payload.attributeIds];
+    }
+
     Attribute.find({ _id : { $in: request.payload.attributeIds }}, function(err, attribute) {
         if (!err) {
             reply(attribute);

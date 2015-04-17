@@ -4,7 +4,7 @@
 var path = require('path')
 module.exports = {
     server: {
-        listenHost: 'localhost',
+        listenHost: '0.0.0.0',
         listenPort: 8080,                                   // The port on which the server is to listen (means that the app is at http://localhost:8081 for instance)
         securePort: 8082,                                   // The HTTPS port on which the server is to listen (means that the app is at https://localhost:8082 for instance)
         distFolder: path.resolve(__dirname, '../../client/dist'),  // The folder that contains the application files (note that the files are in a different repository) - relative to this file
