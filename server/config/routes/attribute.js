@@ -12,11 +12,12 @@ module.exports = exports = function(server) {
     exports.remove(server);
     exports.search(server);
     exports.getOne(server);
+    exports.getList(server);
     exports.measureData(server);
 };
 
 /**
- * GET /events
+ * GET /attribute
  * Gets all the Attribute from MongoDb and returns them.
  *
  * @param server - The Hapi Server
@@ -32,12 +33,29 @@ exports.indexes = function(server) {
     });
 };
 
-// /**
-//  * POST /new
-//  * Creates a new Attribute in the datastore.
-//  *
-//  * @param server - The Hapi Serve
-//  */
+/**
+ * POST /attributeList
+ * Gets all the Attribute from MongoDb and returns them.
+ *
+ * @param server - The Hapi Server
+ */
+exports.getList = function(server) {
+    // GET
+    server.route({
+        method: 'POST',
+        path: '/attributeList',
+        config: {
+            handler: AttributeController.GetAttributesList
+        }
+    });
+};
+
+/**
+ * POST /new
+ * Creates a new Attribute in the datastore.
+ *
+ * @param server - The Hapi Serve
+ */
 exports.create = function(server) {
     // POST
     console.log("routepost");

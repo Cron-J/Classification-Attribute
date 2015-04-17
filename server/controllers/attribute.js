@@ -17,6 +17,17 @@ exports.GetAll = function(request, reply) {
     });
 };
 
+/** get all attribute details */
+exports.GetAttributesList = function(request, reply) {
+    Attribute.find({ _id : { $in: request.payload.attributeIds }}, function(err, attribute) {
+        if (!err) {
+            reply(attribute);
+        } else {
+            reply(Boom.badImplementation(err)); // 500 error
+        }
+    });
+};
+
 /** create new attribute*/
 exports.Create = function(request, reply) {
     var attribute = new Attribute(request.payload);
