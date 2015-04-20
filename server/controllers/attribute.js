@@ -24,7 +24,9 @@ exports.GetAttributesList = function(request, reply) {
         request.payload.attributeIds = [request.payload.attributeIds];
     }
 
-    Attribute.find({ _id : { $in: request.payload.attributeIds }}, function(err, attribute) {
+    Attribute.find({ _id : { $in: request.payload.attributeIds }})
+    .populate('sectionRef')
+    .exec(function(err, attribute) {
         if (!err) {
             reply(attribute);
         } else {
